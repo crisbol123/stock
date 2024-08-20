@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/category")
@@ -24,14 +26,18 @@ public class CategoryRestControllerAdapter {
 
     @PostMapping("/")
     public ResponseEntity<Void> addCategory(@RequestBody AddCategoryRequest request) {
-        Category hola = categoryRequestMapper.addCategoryRequestToCategory(request);
-        categoryServicePort.saveCategory(hola);
+        categoryServicePort.saveCategory(categoryRequestMapper.addCategoryRequestToCategory(request));
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<CategoryResponse> getCategoryById(@PathVariable Long id) {
-        return ResponseEntity.ok(categoryResponseMapper.toCategoryResponse(categoryServicePort.getCategoryById(id).get()));
+        Optional<Category> category = categoryServicePort.getCategoryById(id);
+        if(category.isEmpty()){
+            throw new NoSuchElementException();
+        }
+        return ResponseEntity.ok(categoryResponseMapper.toCategoryResponse(category.get()));
+
     }
 
     @GetMapping("/")

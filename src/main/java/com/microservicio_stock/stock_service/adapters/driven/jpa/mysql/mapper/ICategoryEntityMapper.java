@@ -3,8 +3,6 @@ package com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.mapper;
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.entity.CategoryEntity;
 import com.microservicio_stock.stock_service.domain.model.Category;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-
 import java.util.List;
 
 @Mapper(componentModel = "spring")

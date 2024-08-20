@@ -1,4 +1,4 @@
-package com.microservicio_stock.stock_service.configuration.exceptionHandler;
+package com.microservicio_stock.stock_service.configuration.exception_handler;
 
 import java.time.LocalDateTime;
 

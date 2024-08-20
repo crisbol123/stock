@@ -1,4 +1,4 @@
-package com.microservicio_stock.stock_service.domain.useCases;
+package com.microservicio_stock.stock_service.domain.use_cases;
 
 import com.microservicio_stock.stock_service.domain.model.Category;
 import com.microservicio_stock.stock_service.domain.spi.ICategoryPersistencePort;
