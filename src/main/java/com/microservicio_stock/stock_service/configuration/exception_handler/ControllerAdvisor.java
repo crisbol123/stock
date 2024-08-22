@@ -4,7 +4,7 @@ import com.microservicio_stock.stock_service.domain.exception.EmptyFieldExceptio
 import com.microservicio_stock.stock_service.domain.exception.FieldLengthExceededException;
 
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.exception.ElementNotFoundException;
-import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.exception.CategoryAlreadyExistsException;
+import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.exception.ElementAlreadyExistsException;
 
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.exception.NoDataFoundException;
 import com.microservicio_stock.stock_service.configuration.Constants;
@@ -39,10 +39,10 @@ public class ControllerAdvisor {
                 Constants.NO_DATA_FOUND_EXCEPTION_MESSAGE, HttpStatus.NO_CONTENT.toString(), LocalDateTime.now()));
     }
 
-    @ExceptionHandler(CategoryAlreadyExistsException.class)
+    @ExceptionHandler(ElementAlreadyExistsException.class)
     public ResponseEntity<ExceptionResponse> handleCategoryAlreadyExistsException() {
         return ResponseEntity.badRequest().body(new ExceptionResponse(
-                Constants.CATEGORY_ALREADY_EXISTS_EXCEPTION_MESSAGE, HttpStatus.BAD_REQUEST.toString(), LocalDateTime.now()));
+                Constants.ELEMENT_ALREADY_EXISTS_EXCEPTION_MESSAGE, HttpStatus.BAD_REQUEST.toString(), LocalDateTime.now()));
     }
 
     @ExceptionHandler(ElementNotFoundException.class)

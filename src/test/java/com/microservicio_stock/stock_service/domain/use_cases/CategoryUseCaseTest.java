@@ -57,12 +57,12 @@ class CategoryUseCaseTest {
                 new Category(2L, "Category 2", "Description 2")
         );
 
-        when(categoryPersistencePort.getAllCategories(0, 10)).thenReturn(categories);
+        when(categoryPersistencePort.getAllCategories(0, 10, true)).thenReturn(categories);
 
-        List<Category> result = categoryUseCase.getAllCategories(0, 10);
+        List<Category> result = categoryUseCase.getAllCategories(0, 10, true);
 
         assertEquals(categories.size(), result.size());
-        verify(categoryPersistencePort, times(1)).getAllCategories(0, 10);
+        verify(categoryPersistencePort, times(1)).getAllCategories(0, 10, true);
     }
 
     @Test

@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface ICategoryPersistencePort {
     void saveCategory(Category category);
    Optional<Category> getCategoryById(Long id);
-    List<Category> getAllCategories(Integer page, Integer size);
+    List<Category> getAllCategories(Integer page, Integer size, boolean ascOrderByName);
     Category updateCategory(Category category);
     void deleteCategory(Long id);
     boolean existsByName(String name);
