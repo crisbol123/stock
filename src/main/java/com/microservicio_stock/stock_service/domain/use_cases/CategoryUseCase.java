@@ -5,7 +5,7 @@ import com.microservicio_stock.stock_service.domain.model.Category;
 import com.microservicio_stock.stock_service.domain.spi.ICategoryPersistencePort;
 
 import java.util.List;
-import java.util.Optional;
+
 
 public class CategoryUseCase implements ICategoryServicePort {
 
@@ -20,10 +20,6 @@ public class CategoryUseCase implements ICategoryServicePort {
         categoryPersistencePort.saveCategory(category);
     }
 
-    @Override
-    public Optional<Category> getCategoryById(Long id) {
-        return categoryPersistencePort.getCategoryById(id);
-    }
 
     @Override
     public List<Category> getAllCategories(Integer page, Integer size, Boolean ascOrderByName) {
@@ -31,13 +27,9 @@ public class CategoryUseCase implements ICategoryServicePort {
     }
 
     @Override
-    public Category updateCategory(Category category) {
-
-        return categoryPersistencePort.updateCategory(category);
+    public long getTotalCategories() {
+        return categoryPersistencePort.getTotalCategories();
     }
 
-    @Override
-    public void deleteCategory(Long id) {
-        categoryPersistencePort.deleteCategory(id);
-    }
+
 }

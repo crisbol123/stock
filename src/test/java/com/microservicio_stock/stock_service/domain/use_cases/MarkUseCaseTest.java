@@ -37,18 +37,7 @@ class MarkUseCaseTest {
         verify(markPersistencePort, times(1)).saveMark(mark);
     }
 
-    @Test
-    void getMarkById() {
-        Long markId = 1L;
-        Optional<Mark> mark = Optional.of(new Mark(markId, "Test Mark", "Description"));
 
-        when(markPersistencePort.getMarkById(markId)).thenReturn(mark);
-
-        Optional<Mark> result = markUseCase.getMarkById(markId);
-
-        assertEquals(mark, result);
-        verify(markPersistencePort, times(1)).getMarkById(markId);
-    }
 
     @Test
     void getAllMarks() {
@@ -65,24 +54,5 @@ class MarkUseCaseTest {
         verify(markPersistencePort, times(1)).getAllMarks(0, 10, true);
     }
 
-    @Test
-    void updateMark() {
-        Mark mark = new Mark(1L, "Updated Mark", "Updated Description");
 
-        when(markPersistencePort.updateMark(mark)).thenReturn(mark);
-
-        Mark result = markUseCase.updateMark(mark);
-
-        assertEquals(mark, result);
-        verify(markPersistencePort, times(1)).updateMark(mark);
-    }
-
-    @Test
-    void deleteMark() {
-        Long markId = 1L;
-
-        markUseCase.deleteMark(markId);
-
-        verify(markPersistencePort, times(1)).deleteMark(markId);
-    }
 }

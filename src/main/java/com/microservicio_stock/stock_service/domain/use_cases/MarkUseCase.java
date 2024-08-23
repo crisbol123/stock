@@ -5,7 +5,7 @@ import com.microservicio_stock.stock_service.domain.model.Mark;
 import com.microservicio_stock.stock_service.domain.spi.IMarkPersistencePort;
 
 import java.util.List;
-import java.util.Optional;
+
 
 public class MarkUseCase implements IMarkServicePort {
 
@@ -15,14 +15,10 @@ public class MarkUseCase implements IMarkServicePort {
         this.markPersistencePort = markPersistencePort;
     }
 
+
     @Override
     public void saveMark(Mark mark) {
         markPersistencePort.saveMark(mark);
-    }
-
-    @Override
-    public Optional<Mark> getMarkById(Long id) {
-        return markPersistencePort.getMarkById(id);
     }
 
     @Override
@@ -31,12 +27,7 @@ public class MarkUseCase implements IMarkServicePort {
     }
 
     @Override
-    public Mark updateMark(Mark mark) {
-        return markPersistencePort.updateMark(mark);
-    }
-
-    @Override
-    public void deleteMark(Long id) {
-        markPersistencePort.deleteMark(id);
+    public long getTotalMarks() {
+        return markPersistencePort.getTotalMarks();
     }
 }

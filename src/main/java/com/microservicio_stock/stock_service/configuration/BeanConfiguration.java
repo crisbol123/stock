@@ -28,8 +28,6 @@ public class BeanConfiguration {
 
 
 
-
-
     @Bean
     public ICategoryPersistencePort categoryPersistencePort() {
         return new CategoryAdapter(categoryRepository, categoryEntityMapper);
