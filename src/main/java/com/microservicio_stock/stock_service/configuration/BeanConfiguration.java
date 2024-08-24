@@ -6,8 +6,10 @@ import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.mapper.IM
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.repository.ICategoryRepository;
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.mapper.ICategoryEntityMapper;
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.repository.IMarkRepository;
+import com.microservicio_stock.stock_service.domain.api.IArticleServicePort;
 import com.microservicio_stock.stock_service.domain.api.ICategoryServicePort;
 import com.microservicio_stock.stock_service.domain.api.IMarkServicePort;
+import com.microservicio_stock.stock_service.domain.spi.IArticlePersistencePort;
 import com.microservicio_stock.stock_service.domain.spi.IMarkPersistencePort;
 import com.microservicio_stock.stock_service.domain.use_cases.CategoryUseCase;
 import com.microservicio_stock.stock_service.domain.spi.ICategoryPersistencePort;
@@ -24,7 +26,18 @@ public class BeanConfiguration {
     private final ICategoryEntityMapper categoryEntityMapper;
     private final IMarkEntityMapper markEntityMapper;
     private final IMarkRepository markRepository;
+    private final IArticleRepository articleRepository;
+    private final IArticleEntityMapper articleEntityMapper;
 
+
+@Bean
+public IArticlePersistencePort articlePersistencePort() {
+    return ArticleAdapter(articleRepository, articleEntityMapper);
+}
+@Bean
+public IArticleServicePort articleServicePort() {
+    return ArticleUseCase(articlePersistencePort());
+}
 
 
 

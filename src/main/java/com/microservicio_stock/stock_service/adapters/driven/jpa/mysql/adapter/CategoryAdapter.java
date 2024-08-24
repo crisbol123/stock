@@ -34,6 +34,7 @@ public class CategoryAdapter implements ICategoryPersistencePort {
     public List<Category> getAllCategories(Integer page, Integer size, boolean ascOrderByName) {
         Sort sort = ascOrderByName ? Sort.by("name").ascending() : Sort.by("name").descending();
         Pageable pagination = PageRequest.of(page, size, sort);
+
         List<CategoryEntity> categories = categoryRepository.findAll(pagination).getContent();
         if (categories.isEmpty()) {
             throw new NoDataFoundException();

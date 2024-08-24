@@ -24,5 +24,5 @@ public class PagedResponse<T> {
         this.ascOrderByName = ascOrderByName;
     }
 
-    // Getters and setters
+
 }
