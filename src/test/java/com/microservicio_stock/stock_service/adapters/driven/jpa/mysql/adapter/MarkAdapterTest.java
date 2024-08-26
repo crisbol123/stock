@@ -13,9 +13,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 import java.util.Collections;
 import java.util.List;
@@ -87,7 +85,7 @@ class MarkAdapterTest {
         when(markEntityMapper.toModelList(markEntities)).thenReturn(List.of(mark));
 
         // Act
-        List<Mark> result = markAdapter.getAllMarks(0, 10, true);
+        List<Mark> result = markAdapter.getPagedMarks(0, 10, true);
 
         // Assert
         assertNotNull(result);
@@ -104,7 +102,7 @@ class MarkAdapterTest {
 
         // Act & Assert
         assertThrows(NoDataFoundException.class, () -> {
-            markAdapter.getAllMarks(0, 10, true);
+            markAdapter.getPagedMarks(0, 10, true);
         });
 
         verify(markEntityMapper, never()).toModelList(anyList());

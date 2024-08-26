@@ -16,7 +16,6 @@ public class MarkEntity {
     @Column(name = "description", nullable = false)
     private String description;
 
-    // Constructors, getters, and setters
 
     public MarkEntity() {
     }

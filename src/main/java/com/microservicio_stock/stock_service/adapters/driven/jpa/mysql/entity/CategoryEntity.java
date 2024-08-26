@@ -16,7 +16,7 @@ public class CategoryEntity {
     @Column(name = "description", nullable = false)
     private String description;
 
-    // Constructors, getters, and setters
+
 
     public CategoryEntity() {
     }

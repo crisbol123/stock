@@ -2,11 +2,11 @@ package com.microservicio_stock.stock_service.adapters.driving.http.controller;
 
 import com.microservicio_stock.stock_service.adapters.driving.http.adapter.CategoryAdapterHttp;
 import com.microservicio_stock.stock_service.adapters.driving.http.dto.category.request.AddCategoryRequest;
+import com.microservicio_stock.stock_service.adapters.driving.http.dto.category.request.FindAllCategoriesRequest;
 import com.microservicio_stock.stock_service.adapters.driving.http.dto.category.response.CategoryResponse;
 import com.microservicio_stock.stock_service.adapters.driving.http.dto.PagedResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -44,16 +44,11 @@ categoryAdapterHttp.saveCategory(request);
             @ApiResponse(responseCode = "404", description = "No categories found", content = @Content)
     })
     @GetMapping("/")
-    public ResponseEntity<PagedResponse<CategoryResponse>> getAllCategories(
-            @Parameter(description = "Page number of the categories to retrieve", required = true)
-            @RequestParam Integer page,
-            @Parameter(description = "Number of categories per page", required = true)
-            @RequestParam Integer size,
-            @Parameter(description = "Sort categories by name in ascending order if true, descending if false", required = true)
-            @RequestParam Boolean ascOrderByName) {
+    public ResponseEntity<PagedResponse<CategoryResponse>> getAllCategories(FindAllCategoriesRequest request) {
 
-        return ResponseEntity.ok(categoryAdapterHttp.getAllCategories(page, size, ascOrderByName));
+        return ResponseEntity.ok(categoryAdapterHttp.getPagedCategories(request));
     }
+
 
 
 }

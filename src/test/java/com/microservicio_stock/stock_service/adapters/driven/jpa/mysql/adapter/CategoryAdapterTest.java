@@ -13,9 +13,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 import java.util.Collections;
 import java.util.List;
@@ -87,7 +85,7 @@ class CategoryAdapterTest {
         when(categoryEntityMapper.toModelList(categoryEntities)).thenReturn(List.of(category));
 
         // Act
-        List<Category> result = categoryAdapter.getAllCategories(0, 10, true);
+        List<Category> result = categoryAdapter.getPagedCategories(0, 10, true);
 
         // Assert
         assertNotNull(result);
@@ -104,7 +102,7 @@ class CategoryAdapterTest {
 
         // Act & Assert
         assertThrows(NoDataFoundException.class, () -> {
-            categoryAdapter.getAllCategories(0, 10, true);
+            categoryAdapter.getPagedCategories(0, 10, true);
         });
 
         verify(categoryEntityMapper, never()).toModelList(anyList());

@@ -2,6 +2,7 @@ package com.microservicio_stock.stock_service.adapters.driving.http.adapter;
 
 import com.microservicio_stock.stock_service.adapters.driving.http.dto.PagedResponse;
 import com.microservicio_stock.stock_service.adapters.driving.http.dto.mark.request.AddMarkRequest;
+import com.microservicio_stock.stock_service.adapters.driving.http.dto.mark.request.FindAllRequest;
 import com.microservicio_stock.stock_service.adapters.driving.http.dto.mark.response.MarkResponse;
 import com.microservicio_stock.stock_service.adapters.driving.http.mapper.mark.IMarkRequestMapper;
 import com.microservicio_stock.stock_service.adapters.driving.http.mapper.mark.IMarkResponseMapper;
@@ -22,21 +23,8 @@ public class MarkAdapterHttp {
         markServicePort.saveMark(markRequestMapper.addMarkRequestToMark(addMarkRequest));
     }
 
-    public PagedResponse<MarkResponse> getAllMarks(Integer page, Integer size, Boolean ascOrderByName) {
-        List<Mark> marks = markServicePort.getAllMarks(page, size, ascOrderByName);
-        long totalElements = markServicePort.getTotalMarks();
-        int totalPages = (int) Math.ceil((double) totalElements / size);
-        boolean lastPage = page >= totalPages - 1;
-
-        List<MarkResponse> markResponses = markResponseMapper.toMarkResponseList(marks);
-
-        return new PagedResponse<>(
-            markResponses,
-            page,
-            totalPages,
-            totalElements,
-            lastPage,
-            ascOrderByName
-        );
+    public PagedResponse<MarkResponse> getPagedMarks(FindAllRequest findAllRequest) {
+        PagedResponse pagedResponse = markServicePort.getPagedMarks(findAllRequest.getPage(), findAllRequest.getSize(), findAllRequest.isAscOrderByName());
+        return markResponseMapper.toMarkResponsePagedResponse(pagedResponse);
     }
 }

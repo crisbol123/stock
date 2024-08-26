@@ -1,6 +1,8 @@
 package com.microservicio_stock.stock_service.domain.use_cases;
 
+import com.microservicio_stock.stock_service.adapters.driving.http.dto.PagedResponse;
 import com.microservicio_stock.stock_service.domain.api.IMarkServicePort;
+import com.microservicio_stock.stock_service.domain.model.Category;
 import com.microservicio_stock.stock_service.domain.model.Mark;
 import com.microservicio_stock.stock_service.domain.spi.IMarkPersistencePort;
 
@@ -22,12 +24,12 @@ public class MarkUseCase implements IMarkServicePort {
     }
 
     @Override
-    public List<Mark> getAllMarks(Integer page, Integer size, Boolean ascOrderByName) {
-        return markPersistencePort.getAllMarks(page, size, ascOrderByName);
+    public PagedResponse<Mark> getPagedMarks(Integer page, Integer size, Boolean ascOrderByName) {
+        return markPersistencePort.getPagedMarks(page, size, ascOrderByName);
     }
 
     @Override
-    public long getTotalMarks() {
-        return markPersistencePort.getTotalMarks();
+    public Mark getMarkById(Long id) {
+        return markPersistencePort.getMarkById(id);
     }
-}
+   }

@@ -1,12 +1,15 @@
 package com.microservicio_stock.stock_service.domain.api;
 
+import com.microservicio_stock.stock_service.adapters.driving.http.dto.PagedResponse;
+import com.microservicio_stock.stock_service.domain.model.Category;
 import com.microservicio_stock.stock_service.domain.model.Mark;
 
+import java.util.Calendar;
 import java.util.List;
 
 public interface IMarkServicePort {
     void saveMark(Mark mark);
-    List<Mark> getAllMarks(Integer page, Integer size, Boolean ascOrderByName);
+    PagedResponse<Mark> getPagedMarks(Integer page, Integer size, Boolean ascOrderByName);
 
-    long getTotalMarks();
+    Mark getMarkById(Long id);
 }

@@ -42,7 +42,7 @@ public class Article {
         this.mark = mark;
     }
 
-    // Getters and Setters
+
     public Long getId() {
         return id;
     }

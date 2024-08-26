@@ -10,7 +10,6 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -46,12 +45,12 @@ class MarkUseCaseTest {
                 new Mark(2L, "Mark 2", "Description 2")
         );
 
-        when(markPersistencePort.getAllMarks(0, 10, true)).thenReturn(marks);
+        when(markPersistencePort.getPagedMarks(0, 10, true)).thenReturn(marks);
 
         List<Mark> result = markUseCase.getAllMarks(0, 10, true);
 
         assertEquals(marks.size(), result.size());
-        verify(markPersistencePort, times(1)).getAllMarks(0, 10, true);
+        verify(markPersistencePort, times(1)).getPagedMarks(0, 10, true);
     }
 
 

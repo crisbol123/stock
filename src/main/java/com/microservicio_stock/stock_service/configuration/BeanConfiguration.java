@@ -1,8 +1,11 @@
 package com.microservicio_stock.stock_service.configuration;
 
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.adapter.CategoryAdapter;
+import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.adapter.ArticleAdapter;
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.adapter.MarkAdapter;
+import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.mapper.IArticleEntityMapper;
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.mapper.IMarkEntityMapper;
+import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.repository.IArticleRepository;
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.repository.ICategoryRepository;
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.mapper.ICategoryEntityMapper;
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.repository.IMarkRepository;
@@ -11,6 +14,7 @@ import com.microservicio_stock.stock_service.domain.api.ICategoryServicePort;
 import com.microservicio_stock.stock_service.domain.api.IMarkServicePort;
 import com.microservicio_stock.stock_service.domain.spi.IArticlePersistencePort;
 import com.microservicio_stock.stock_service.domain.spi.IMarkPersistencePort;
+import com.microservicio_stock.stock_service.domain.use_cases.ArticleUseCase;
 import com.microservicio_stock.stock_service.domain.use_cases.CategoryUseCase;
 import com.microservicio_stock.stock_service.domain.spi.ICategoryPersistencePort;
 import com.microservicio_stock.stock_service.domain.use_cases.MarkUseCase;
@@ -32,11 +36,11 @@ public class BeanConfiguration {
 
 @Bean
 public IArticlePersistencePort articlePersistencePort() {
-    return ArticleAdapter(articleRepository, articleEntityMapper);
+    return new ArticleAdapter(articleRepository, articleEntityMapper);
 }
 @Bean
 public IArticleServicePort articleServicePort() {
-    return ArticleUseCase(articlePersistencePort());
+    return new ArticleUseCase(articlePersistencePort());
 }
 
 

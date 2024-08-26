@@ -13,15 +13,15 @@ public class PagedResponse<T> {
     private int totalPages;
     private long totalElements;
     private boolean lastPage;
-    private boolean ascOrderByName;
 
-    public PagedResponse(List<T> content, int currentPage, int totalPages, long totalElements, boolean lastPage, boolean ascOrderByName) {
+
+    public PagedResponse(List<T> content, int currentPage, int totalPages, long totalElements, boolean lastPage) {
         this.content = content;
         this.currentPage = currentPage;
         this.totalPages = totalPages;
         this.totalElements = totalElements;
         this.lastPage = lastPage;
-        this.ascOrderByName = ascOrderByName;
+
     }
 
 

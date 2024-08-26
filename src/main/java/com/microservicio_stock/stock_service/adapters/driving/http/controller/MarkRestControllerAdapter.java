@@ -3,6 +3,7 @@ package com.microservicio_stock.stock_service.adapters.driving.http.controller;
 import com.microservicio_stock.stock_service.adapters.driving.http.adapter.MarkAdapterHttp;
 import com.microservicio_stock.stock_service.adapters.driving.http.dto.PagedResponse;
 import com.microservicio_stock.stock_service.adapters.driving.http.dto.mark.request.AddMarkRequest;
+import com.microservicio_stock.stock_service.adapters.driving.http.dto.mark.request.FindAllRequest;
 import com.microservicio_stock.stock_service.adapters.driving.http.dto.mark.response.MarkResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -43,12 +44,7 @@ public class MarkRestControllerAdapter {
     })
     @GetMapping("/")
     public ResponseEntity<PagedResponse<MarkResponse>> getAllMarks(
-            @Parameter(description = "Page number of the marks to retrieve", required = true)
-            @RequestParam Integer page,
-            @Parameter(description = "Number of marks per page", required = true)
-            @RequestParam Integer size,
-            @Parameter(description = "Sort marks by name in ascending order if true, descending if false", required = true)
-            @RequestParam Boolean ascOrderByName) {
-        return ResponseEntity.ok(markAdapterHttp.getAllMarks(page, size, ascOrderByName));
+          FindAllRequest findAllRequest) {
+        return ResponseEntity.ok(markAdapterHttp.getPagedMarks(findAllRequest));
     }
 }

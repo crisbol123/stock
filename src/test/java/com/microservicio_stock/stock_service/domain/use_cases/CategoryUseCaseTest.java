@@ -1,5 +1,6 @@
 package com.microservicio_stock.stock_service.domain.use_cases;
 
+import com.microservicio_stock.stock_service.adapters.driving.http.dto.PagedResponse;
 import com.microservicio_stock.stock_service.domain.model.Category;
 import com.microservicio_stock.stock_service.domain.spi.ICategoryPersistencePort;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,7 +11,6 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -45,12 +45,11 @@ class CategoryUseCaseTest {
                 new Category(2L, "Category 2", "Description 2")
         );
 
-        when(categoryPersistencePort.getAllCategories(0, 10, true)).thenReturn(categories);
+        when(categoryPersistencePort.getPagedCategories(0, 10, true)).thenReturn(new PagedResponse<>(categories, 2, 0, 10, false, true));
 
-        List<Category> result = categoryUseCase.getAllCategories(0, 10, true);
-
-        assertEquals(categories.size(), result.size());
-        verify(categoryPersistencePort, times(1)).getAllCategories(0, 10, true);
+        PagedResponse result = categoryUseCase.getPagedCategories(0, 10, true);
+        assertEquals(result.getCurrentPage(), 2);
+        verify(categoryPersistencePort, times(1)).getPagedCategories(0, 10, true);
     }
 }
 
