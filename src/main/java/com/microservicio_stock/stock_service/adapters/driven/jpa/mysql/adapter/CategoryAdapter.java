@@ -39,9 +39,8 @@ public class CategoryAdapter implements ICategoryPersistencePort {
         if (pagee.isEmpty()) {
             throw new NoDataFoundException();
         }
-        PagedResponse<Category> pagedResponse = categoryEntityMapper.toPagedModel(pagee,  pagee.isLast(), pagee.getNumber());
 
-        return pagedResponse;
+        return   categoryEntityMapper.toPagedModel(pagee,  pagee.isLast(), pagee.getNumber());
     }
 
 @Override

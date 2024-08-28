@@ -3,6 +3,7 @@ package com.microservicio_stock.stock_service.adapters.driving.http.adapter;
 import com.microservicio_stock.stock_service.adapters.driving.http.dto.category.request.AddCategoryRequest;
 import com.microservicio_stock.stock_service.adapters.driving.http.dto.category.request.FindAllCategoriesRequest;
 import com.microservicio_stock.stock_service.adapters.driving.http.dto.category.response.CategoryResponse;
+import com.microservicio_stock.stock_service.domain.model.Category;
 import com.microservicio_stock.stock_service.domain.util.PagedResponse;
 import com.microservicio_stock.stock_service.adapters.driving.http.mapper.category.ICategoryRequestMapper;
 import com.microservicio_stock.stock_service.adapters.driving.http.mapper.category.ICategoryResponseMapper;
@@ -22,7 +23,7 @@ public class CategoryAdapterHttp {
     }
 
     public PagedResponse<CategoryResponse> getPagedCategories(FindAllCategoriesRequest findAllCategoriesRequest) {
-        PagedResponse pagedResponse = categoryServicePort.getPagedCategories(findAllCategoriesRequest.getPage(), findAllCategoriesRequest.getSize(), findAllCategoriesRequest.isAscOrderByName());
+        PagedResponse<Category> pagedResponse = categoryServicePort.getPagedCategories(findAllCategoriesRequest.getPage(), findAllCategoriesRequest.getSize(), findAllCategoriesRequest.isAscOrderByName());
         return categoryResponseMapper.toCategoryResponsePagedResponse(pagedResponse);
     }
 }

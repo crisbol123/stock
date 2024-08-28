@@ -1,6 +1,5 @@
 package com.microservicio_stock.stock_service.adapters.driving.http.mapper.article;
 import com.microservicio_stock.stock_service.adapters.driving.http.dto.article.request.AddArticleRequest;
-import com.microservicio_stock.stock_service.domain.api.IArticleServicePort;
 import com.microservicio_stock.stock_service.domain.api.ICategoryServicePort;
 import com.microservicio_stock.stock_service.domain.api.IMarkServicePort;
 import com.microservicio_stock.stock_service.domain.model.Article;

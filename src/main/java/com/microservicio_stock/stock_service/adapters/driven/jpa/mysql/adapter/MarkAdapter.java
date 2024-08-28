@@ -41,9 +41,9 @@ public class MarkAdapter implements IMarkPersistencePort {
         if (pagee.isEmpty()) {
             throw new NoDataFoundException();
         }
-        PagedResponse<Mark> pagedResponse = markEntityMapper.toPagedModel(pagee,  pagee.isLast(), pagee.getNumber());
 
-        return pagedResponse;
+        return  markEntityMapper.toPagedModel(pagee,  pagee.isLast(), pagee.getNumber());
+
     }
 
     @Override

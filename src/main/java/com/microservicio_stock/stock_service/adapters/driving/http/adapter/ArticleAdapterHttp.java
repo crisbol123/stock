@@ -17,12 +17,12 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class ArticleAdapterHttp {
    private final IArticleServicePort articleServicePort;
-   private final IArticleRequestMapper IArticleRequestMapper;
+   private final IArticleRequestMapper iArticleRequestMapper;
     private final ICategoryServicePort categoryServicePort;
     private  final IMarkServicePort markServicePort;
     private final IArticleResponseMapper articleResponseMapper;
     public void saveArticle(AddArticleRequest addArticleRequest) {
-        Article article = IArticleRequestMapper.addArticleRequestToArticle(addArticleRequest, categoryServicePort, markServicePort);
+        Article article = iArticleRequestMapper.addArticleRequestToArticle(addArticleRequest, categoryServicePort, markServicePort);
         articleServicePort.saveArticle(article);
     }
 

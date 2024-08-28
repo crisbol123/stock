@@ -10,7 +10,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Mapper(componentModel = "spring")
 public interface IArticleResponseMapper {
@@ -22,7 +22,7 @@ public interface IArticleResponseMapper {
     default List<ArticleResponse> mapArticles(List<Article> articles) {
         return articles.stream()
                 .map(this::toArticleResponse)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Mapping(target = "categories", source = "categories", qualifiedByName = "toCategorySummaryResponseList")
@@ -32,7 +32,7 @@ public interface IArticleResponseMapper {
     default List<CategorySummaryResponse> toCategorySummaryResponseList(List<Category> categories) {
         return categories.stream()
                 .map(this::toCategorySummaryResponse)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Named("toCategorySummaryResponse")

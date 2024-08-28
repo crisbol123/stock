@@ -1,5 +1,6 @@
 package com.microservicio_stock.stock_service.adapters.driving.http.adapter;
 
+import com.microservicio_stock.stock_service.domain.model.Mark;
 import com.microservicio_stock.stock_service.domain.util.PagedResponse;
 import com.microservicio_stock.stock_service.adapters.driving.http.dto.mark.request.AddMarkRequest;
 import com.microservicio_stock.stock_service.adapters.driving.http.dto.mark.request.FindAllMarksRequest;
@@ -21,7 +22,7 @@ public class MarkAdapterHttp {
         markServicePort.saveMark(markRequestMapper.addMarkRequestToMark(addMarkRequest));
     }
     public PagedResponse<MarkResponse> getPagedMarks(FindAllMarksRequest findAllMarksRequest) {
-        PagedResponse pagedResponse = markServicePort.getPagedMarks(findAllMarksRequest.getPage(), findAllMarksRequest.getSize(), findAllMarksRequest.isAscOrderByName());
+        PagedResponse<Mark> pagedResponse = markServicePort.getPagedMarks(findAllMarksRequest.getPage(), findAllMarksRequest.getSize(), findAllMarksRequest.isAscOrderByName());
         return markResponseMapper.toMarkResponsePagedResponse(pagedResponse);
     }
 }
