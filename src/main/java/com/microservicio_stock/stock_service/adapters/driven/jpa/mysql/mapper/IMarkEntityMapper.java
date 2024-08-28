@@ -1,7 +1,7 @@
 package com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.mapper;
 
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.entity.MarkEntity;
-import com.microservicio_stock.stock_service.adapters.driving.http.dto.PagedResponse;
+import com.microservicio_stock.stock_service.domain.util.PagedResponse;
 import com.microservicio_stock.stock_service.domain.model.Mark;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

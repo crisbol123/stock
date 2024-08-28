@@ -15,6 +15,6 @@ public class ArticleResponse {
     private String description;
     private int quantity;
     private double price;
-    private List<CategorySummaryResponse> categories; // IDs of categories
+    private List<CategorySummaryResponse> categories;
     private MarkResponse mark;
 }

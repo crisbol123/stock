@@ -2,6 +2,7 @@ package com.microservicio_stock.stock_service.domain.use_cases;
 
 import com.microservicio_stock.stock_service.domain.model.Mark;
 import com.microservicio_stock.stock_service.domain.spi.IMarkPersistencePort;
+import com.microservicio_stock.stock_service.domain.util.PagedResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -28,30 +29,55 @@ class MarkUseCaseTest {
     }
 
     @Test
-    void saveMark() {
-        Mark mark = new Mark(1L, "Test Mark", "Description");
+    void saveMark_ShouldCallSaveMarkOnPersistencePort() {
+        // Arrange
+        Mark mark = new Mark(1L, "BrandName", "BrandDescription");
 
+        // Act
         markUseCase.saveMark(mark);
 
+        // Assert
         verify(markPersistencePort, times(1)).saveMark(mark);
     }
 
-
-
     @Test
-    void getAllMarks() {
-        List<Mark> marks = Arrays.asList(
-                new Mark(1L, "Mark 1", "Description 1"),
-                new Mark(2L, "Mark 2", "Description 2")
+    void getPagedMarks_ShouldReturnPagedMarksFromPersistencePort() {
+        // Arrange
+        int page = 1;
+        int size = 10;
+        boolean ascOrderByName = true;
+
+        Mark mark1 = new Mark(1L, "BrandName1", "BrandDescription1");
+        Mark mark2 = new Mark(2L, "BrandName2", "BrandDescription2");
+        List<Mark> marks = Arrays.asList(mark1, mark2);
+
+        PagedResponse<Mark> expectedResponse = new PagedResponse<>(
+                marks, 1, 1, 2L, true
         );
 
-        when(markPersistencePort.getPagedMarks(0, 10, true)).thenReturn(marks);
+        when(markPersistencePort.getPagedMarks(page, size, ascOrderByName)).thenReturn(expectedResponse);
 
-        List<Mark> result = markUseCase.getAllMarks(0, 10, true);
+        // Act
+        PagedResponse<Mark> result = markUseCase.getPagedMarks(page, size, ascOrderByName);
 
-        assertEquals(marks.size(), result.size());
-        verify(markPersistencePort, times(1)).getPagedMarks(0, 10, true);
+        // Assert
+        assertEquals(expectedResponse, result);
+        verify(markPersistencePort, times(1)).getPagedMarks(page, size, ascOrderByName);
     }
 
+    @Test
+    void getMarkById_ShouldReturnMarkFromPersistencePort() {
+        // Arrange
+        Long id = 1L;
+        Mark expectedMark = new Mark(id, "BrandName", "BrandDescription");
 
+        when(markPersistencePort.getMarkById(id)).thenReturn(expectedMark);
+
+        // Act
+        Mark result = markUseCase.getMarkById(id);
+
+        // Assert
+        assertEquals(expectedMark, result);
+        verify(markPersistencePort, times(1)).getMarkById(id);
+    }
 }

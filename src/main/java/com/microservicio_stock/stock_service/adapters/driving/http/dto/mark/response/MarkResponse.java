@@ -9,4 +9,6 @@ public class MarkResponse {
     private Long id;
     private String name;
     private String description;
+
+
 }

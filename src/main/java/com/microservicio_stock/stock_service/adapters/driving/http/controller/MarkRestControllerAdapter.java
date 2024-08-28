@@ -1,12 +1,11 @@
 package com.microservicio_stock.stock_service.adapters.driving.http.controller;
 
 import com.microservicio_stock.stock_service.adapters.driving.http.adapter.MarkAdapterHttp;
-import com.microservicio_stock.stock_service.adapters.driving.http.dto.PagedResponse;
+import com.microservicio_stock.stock_service.domain.util.PagedResponse;
 import com.microservicio_stock.stock_service.adapters.driving.http.dto.mark.request.AddMarkRequest;
-import com.microservicio_stock.stock_service.adapters.driving.http.dto.mark.request.FindAllRequest;
+import com.microservicio_stock.stock_service.adapters.driving.http.dto.mark.request.FindAllMarksRequest;
 import com.microservicio_stock.stock_service.adapters.driving.http.dto.mark.response.MarkResponse;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -44,7 +43,7 @@ public class MarkRestControllerAdapter {
     })
     @GetMapping("/")
     public ResponseEntity<PagedResponse<MarkResponse>> getAllMarks(
-          FindAllRequest findAllRequest) {
-        return ResponseEntity.ok(markAdapterHttp.getPagedMarks(findAllRequest));
+          FindAllMarksRequest findAllMarksRequest) {
+        return ResponseEntity.ok(markAdapterHttp.getPagedMarks(findAllMarksRequest));
     }
 }

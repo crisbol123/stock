@@ -5,7 +5,7 @@ import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.exception
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.exception.NoDataFoundException;
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.mapper.ICategoryEntityMapper;
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.repository.ICategoryRepository;
-import com.microservicio_stock.stock_service.adapters.driving.http.dto.PagedResponse;
+import com.microservicio_stock.stock_service.domain.util.PagedResponse;
 import com.microservicio_stock.stock_service.domain.model.Category;
 import com.microservicio_stock.stock_service.domain.spi.ICategoryPersistencePort;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-
-import java.util.List;
 
 
 @RequiredArgsConstructor

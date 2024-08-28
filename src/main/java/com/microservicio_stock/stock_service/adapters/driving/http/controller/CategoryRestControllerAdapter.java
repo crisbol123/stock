@@ -4,7 +4,7 @@ import com.microservicio_stock.stock_service.adapters.driving.http.adapter.Categ
 import com.microservicio_stock.stock_service.adapters.driving.http.dto.category.request.AddCategoryRequest;
 import com.microservicio_stock.stock_service.adapters.driving.http.dto.category.request.FindAllCategoriesRequest;
 import com.microservicio_stock.stock_service.adapters.driving.http.dto.category.response.CategoryResponse;
-import com.microservicio_stock.stock_service.adapters.driving.http.dto.PagedResponse;
+import com.microservicio_stock.stock_service.domain.util.PagedResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

@@ -3,7 +3,7 @@ package com.microservicio_stock.stock_service.adapters.driving.http.adapter;
 import com.microservicio_stock.stock_service.adapters.driving.http.dto.category.request.AddCategoryRequest;
 import com.microservicio_stock.stock_service.adapters.driving.http.dto.category.request.FindAllCategoriesRequest;
 import com.microservicio_stock.stock_service.adapters.driving.http.dto.category.response.CategoryResponse;
-import com.microservicio_stock.stock_service.adapters.driving.http.dto.PagedResponse;
+import com.microservicio_stock.stock_service.domain.util.PagedResponse;
 import com.microservicio_stock.stock_service.adapters.driving.http.mapper.category.ICategoryRequestMapper;
 import com.microservicio_stock.stock_service.adapters.driving.http.mapper.category.ICategoryResponseMapper;
 import com.microservicio_stock.stock_service.domain.api.ICategoryServicePort;

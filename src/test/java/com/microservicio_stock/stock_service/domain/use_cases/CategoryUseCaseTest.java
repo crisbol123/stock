@@ -1,21 +1,22 @@
 package com.microservicio_stock.stock_service.domain.use_cases;
 
-import com.microservicio_stock.stock_service.adapters.driving.http.dto.PagedResponse;
 import com.microservicio_stock.stock_service.domain.model.Category;
 import com.microservicio_stock.stock_service.domain.spi.ICategoryPersistencePort;
+import com.microservicio_stock.stock_service.domain.util.PagedResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-class CategoryUseCaseTest {
+public class CategoryUseCaseTest {
 
     @Mock
     private ICategoryPersistencePort categoryPersistencePort;
@@ -29,28 +30,38 @@ class CategoryUseCaseTest {
     }
 
     @Test
-    void saveCategoryTest() {
-        Category category = new Category(1L, "Test Category", "Description");
+    void testSaveCategory() {
+        Category category = new Category(1L, "CategoryName", "CategoryDescription");
 
         categoryUseCase.saveCategory(category);
 
         verify(categoryPersistencePort, times(1)).saveCategory(category);
     }
 
-
     @Test
-    void getAllCategoriesTest() {
-        List<Category> categories = Arrays.asList(
-                new Category(1L, "Category 1", "Description 1"),
-                new Category(2L, "Category 2", "Description 2")
+    void testGetPagedCategories() {
+        PagedResponse<Category> pagedResponse = new PagedResponse<>(
+                List.of(new Category(1L, "CategoryName1", "Description1")),
+                0, 1, 1, true
         );
 
-        when(categoryPersistencePort.getPagedCategories(0, 10, true)).thenReturn(new PagedResponse<>(categories, 2, 0, 10, false, true));
+        when(categoryPersistencePort.getPagedCategories(anyInt(), anyInt(), anyBoolean())).thenReturn(pagedResponse);
 
-        PagedResponse result = categoryUseCase.getPagedCategories(0, 10, true);
-        assertEquals(result.getCurrentPage(), 2);
+        PagedResponse<Category> result = categoryUseCase.getPagedCategories(0, 10, true);
+
+        assertEquals(pagedResponse, result);
         verify(categoryPersistencePort, times(1)).getPagedCategories(0, 10, true);
     }
+
+    @Test
+    void testGetCategoryById() {
+        Category category = new Category(1L, "CategoryName", "CategoryDescription");
+
+        when(categoryPersistencePort.getCategoryById(1L)).thenReturn(category);
+
+        Category result = categoryUseCase.getCategoryById(1L);
+
+        assertEquals(category, result);
+        verify(categoryPersistencePort, times(1)).getCategoryById(1L);
+    }
 }
-
-

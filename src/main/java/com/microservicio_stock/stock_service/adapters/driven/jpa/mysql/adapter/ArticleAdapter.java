@@ -4,8 +4,7 @@ import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.entity.Ar
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.exception.NoDataFoundException;
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.mapper.IArticleEntityMapper;
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.repository.IArticleRepository;
-import com.microservicio_stock.stock_service.adapters.driving.http.dto.PagedResponse;
-import com.microservicio_stock.stock_service.domain.api.IArticleServicePort;
+import com.microservicio_stock.stock_service.domain.util.PagedResponse;
 import com.microservicio_stock.stock_service.domain.model.Article;
 import com.microservicio_stock.stock_service.domain.spi.IArticlePersistencePort;
 import lombok.AllArgsConstructor;

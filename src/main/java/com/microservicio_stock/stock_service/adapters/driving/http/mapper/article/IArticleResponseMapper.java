@@ -1,11 +1,10 @@
 package com.microservicio_stock.stock_service.adapters.driving.http.mapper.article;
 
-import com.microservicio_stock.stock_service.adapters.driving.http.dto.PagedResponse;
 import com.microservicio_stock.stock_service.adapters.driving.http.dto.article.response.ArticleResponse;
 import com.microservicio_stock.stock_service.adapters.driving.http.dto.article.response.CategorySummaryResponse;
-import com.microservicio_stock.stock_service.adapters.driving.http.dto.category.response.CategoryResponse;
 import com.microservicio_stock.stock_service.domain.model.Article;
 import com.microservicio_stock.stock_service.domain.model.Category;
+import com.microservicio_stock.stock_service.domain.util.PagedResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -22,7 +21,7 @@ public interface IArticleResponseMapper {
     @Named("mapArticles")
     default List<ArticleResponse> mapArticles(List<Article> articles) {
         return articles.stream()
-                .map(article -> this.toArticleResponse(article))
+                .map(this::toArticleResponse)
                 .collect(Collectors.toList());
     }
 

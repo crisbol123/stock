@@ -1,12 +1,9 @@
 package com.microservicio_stock.stock_service.domain.use_cases;
 
-import com.microservicio_stock.stock_service.adapters.driving.http.dto.PagedResponse;
+import com.microservicio_stock.stock_service.domain.util.PagedResponse;
 import com.microservicio_stock.stock_service.domain.api.IMarkServicePort;
-import com.microservicio_stock.stock_service.domain.model.Category;
 import com.microservicio_stock.stock_service.domain.model.Mark;
 import com.microservicio_stock.stock_service.domain.spi.IMarkPersistencePort;
-
-import java.util.List;
 
 
 public class MarkUseCase implements IMarkServicePort {

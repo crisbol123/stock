@@ -1,13 +1,11 @@
 package com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.adapter;
 
-import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.entity.CategoryEntity;
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.entity.MarkEntity;
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.exception.ElementAlreadyExistsException;
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.exception.NoDataFoundException;
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.mapper.IMarkEntityMapper;
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.repository.IMarkRepository;
-import com.microservicio_stock.stock_service.adapters.driving.http.dto.PagedResponse;
-import com.microservicio_stock.stock_service.domain.model.Category;
+import com.microservicio_stock.stock_service.domain.util.PagedResponse;
 import com.microservicio_stock.stock_service.domain.model.Mark;
 import com.microservicio_stock.stock_service.domain.spi.IMarkPersistencePort;
 

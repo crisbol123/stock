@@ -6,24 +6,29 @@ import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.exception
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.mapper.IMarkEntityMapper;
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.repository.IMarkRepository;
 import com.microservicio_stock.stock_service.domain.model.Mark;
+import com.microservicio_stock.stock_service.domain.util.PagedResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class MarkAdapterTest {
+
+    @InjectMocks
+    private MarkAdapter markAdapter;
 
     @Mock
     private IMarkRepository markRepository;
@@ -31,23 +36,19 @@ class MarkAdapterTest {
     @Mock
     private IMarkEntityMapper markEntityMapper;
 
-    @InjectMocks
-    private MarkAdapter markAdapter;
-
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void testSaveMark_Success() {
+    void saveMark_ShouldSaveMark() {
         // Arrange
-        Mark mark = new Mark(1L, "Samsung", "celular");
-        MarkEntity markEntity = new MarkEntity();
-        markEntity.setName("Samsung");
+        Mark mark = new Mark(1L, "Mark Name", "Mark Description");
+        MarkEntity markEntity = new MarkEntity(1L, "Mark Name", "Mark Description");
 
-        when(markRepository.findByName("Samsung")).thenReturn(Optional.empty());
-        when(markEntityMapper.toEntity(any(Mark.class))).thenReturn(markEntity);
+        when(markRepository.findByName(mark.getName())).thenReturn(Optional.empty());
+        when(markEntityMapper.toEntity(mark)).thenReturn(markEntity);
 
         // Act
         markAdapter.saveMark(mark);
@@ -57,67 +58,104 @@ class MarkAdapterTest {
     }
 
     @Test
-    void testSaveMark_AlreadyExists() {
+    void saveMark_ShouldThrowElementAlreadyExistsException() {
         // Arrange
-        Mark mark = new Mark(1L, "Samsung", "celular");
-
-        when(markRepository.findByName("Samsung")).thenReturn(Optional.of(new MarkEntity()));
+        Mark mark = new Mark(1L, "Mark Name", "Mark Description");
+        MarkEntity markEntity = new MarkEntity(1L, "Mark Name", "Mark Description");
+        when(markRepository.findByName(mark.getName())).thenReturn(Optional.of(markEntity));
 
         // Act & Assert
-        assertThrows(ElementAlreadyExistsException.class, () -> {
-            markAdapter.saveMark(mark);
-        });
-
-        verify(markRepository, never()).save(any(MarkEntity.class));
+        assertThrows(ElementAlreadyExistsException.class, () -> markAdapter.saveMark(mark));
     }
 
     @Test
-    void testGetAllMarks_Success() {
+    void getPagedMarks_ShouldReturnPagedMarks() {
         // Arrange
-        MarkEntity markEntity = new MarkEntity();
-        markEntity.setName("Samsung");
-        List<MarkEntity> markEntities = List.of(markEntity);
+        Integer page = 0;
+        Integer size = 10;
+        boolean ascOrderByName = true;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(ascOrderByName ? Sort.Direction.ASC : Sort.Direction.DESC, "name"));
+        Page<MarkEntity> markEntitiesPage = mock(Page.class);
+        when(markRepository.findAll(pageable)).thenReturn(markEntitiesPage);
+        when(markEntitiesPage.isEmpty()).thenReturn(false);
 
-        Page<MarkEntity> page = new PageImpl<>(markEntities);
-        when(markRepository.findAll(any(Pageable.class))).thenReturn(page);
+        // Prepare dummy data
+        MarkEntity markEntity = new MarkEntity(1L, "Mark Name", "Mark Description");
+        List<MarkEntity> markEntityList = List.of(markEntity);
+        when(markEntitiesPage.getContent()).thenReturn(markEntityList);
+        when(markEntitiesPage.isLast()).thenReturn(false);
+        when(markEntitiesPage.getNumber()).thenReturn(page);
+        when(markEntitiesPage.getTotalPages()).thenReturn(5);
+        when(markEntitiesPage.getTotalElements()).thenReturn(50L);
 
-        Mark mark = new Mark(1L, "Samsung", "celular");
-        when(markEntityMapper.toModelList(markEntities)).thenReturn(List.of(mark));
+        Mark mark = new Mark(1L, "Mark Name", "Mark Description");
+        PagedResponse<Mark> expectedResponse = new PagedResponse<>(
+                List.of(mark),
+                page,
+                5,
+                50L,
+                false
+        );
+
+        when(markEntityMapper.toPagedModel(markEntitiesPage, markEntitiesPage.isLast(), markEntitiesPage.getNumber()))
+                .thenReturn(expectedResponse);
 
         // Act
-        List<Mark> result = markAdapter.getPagedMarks(0, 10, true);
+        PagedResponse<Mark> result = markAdapter.getPagedMarks(page, size, ascOrderByName);
 
         // Assert
         assertNotNull(result);
-        assertFalse(result.isEmpty());
-        assertEquals(1, result.size());
-        assertEquals("Samsung", result.get(0).getName());
+        assertEquals(expectedResponse.getContent(), result.getContent());
+        assertEquals(expectedResponse.getCurrentPage(), result.getCurrentPage());
+        assertEquals(expectedResponse.getTotalPages(), result.getTotalPages());
+        assertEquals(expectedResponse.getTotalElements(), result.getTotalElements());
+        assertEquals(expectedResponse.isLastPage(), result.isLastPage());
+        verify(markRepository, times(1)).findAll(pageable);
+        verify(markEntityMapper, times(1)).toPagedModel(markEntitiesPage, markEntitiesPage.isLast(), markEntitiesPage.getNumber());
     }
 
     @Test
-    void testGetAllMarks_NoDataFound() {
+    void getPagedMarks_NoDataFoundException() {
         // Arrange
-        Page<MarkEntity> emptyPage = new PageImpl<>(Collections.emptyList());
-        when(markRepository.findAll(any(Pageable.class))).thenReturn(emptyPage);
+        Integer page = 0;
+        Integer size = 10;
+        boolean ascOrderByName = true;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(ascOrderByName ? Sort.Direction.ASC : Sort.Direction.DESC, "name"));
+        when(markRepository.findAll(pageable)).thenReturn(Page.empty());
 
         // Act & Assert
-        assertThrows(NoDataFoundException.class, () -> {
-            markAdapter.getPagedMarks(0, 10, true);
-        });
-
-        verify(markEntityMapper, never()).toModelList(anyList());
+        assertThrows(NoDataFoundException.class, () -> markAdapter.getPagedMarks(page, size, ascOrderByName));
     }
 
     @Test
-    void testGetTotalMarks() {
+    void getMarkById_ShouldReturnMark() {
         // Arrange
-        when(markRepository.count()).thenReturn(5L);
+        Long id = 1L;
+        MarkEntity markEntity = new MarkEntity(id, "Mark Name", "Mark Description");
+        Mark mark = new Mark(id, "Mark Name", "Mark Description");
+
+        when(markRepository.findById(id)).thenReturn(Optional.of(markEntity));
+        when(markEntityMapper.toModel(markEntity)).thenReturn(mark);
 
         // Act
-        long result = markAdapter.getTotalMarks();
+        Mark result = markAdapter.getMarkById(id);
 
         // Assert
-        assertEquals(5L, result);
-        verify(markRepository, times(1)).count();
+        assertNotNull(result);
+        assertEquals(mark.getId(), result.getId());
+        assertEquals(mark.getName(), result.getName());
+        assertEquals(mark.getDescription(), result.getDescription());
+        verify(markRepository, times(1)).findById(id);
+        verify(markEntityMapper, times(1)).toModel(markEntity);
+    }
+
+    @Test
+    void getMarkById_NoDataFoundException() {
+        // Arrange
+        Long id = 1L;
+        when(markRepository.findById(id)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(NoDataFoundException.class, () -> markAdapter.getMarkById(id));
     }
 }
