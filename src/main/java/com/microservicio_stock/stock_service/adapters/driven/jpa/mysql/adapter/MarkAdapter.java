@@ -5,6 +5,7 @@ import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.exception
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.exception.NoDataFoundException;
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.mapper.IMarkEntityMapper;
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.repository.IMarkRepository;
+import com.microservicio_stock.stock_service.configuration.Constants;
 import com.microservicio_stock.stock_service.domain.util.PagedResponse;
 import com.microservicio_stock.stock_service.domain.model.Mark;
 import com.microservicio_stock.stock_service.domain.spi.IMarkPersistencePort;
@@ -24,8 +25,8 @@ public class MarkAdapter implements IMarkPersistencePort {
 
     @Override
     public void saveMark(Mark mark) {
-        if (markRepository.findByName(mark.getName()).isPresent()) {
-            throw new ElementAlreadyExistsException();
+        if (markRepository.findIdByName(mark.getName()).isPresent()) {
+            throw new ElementAlreadyExistsException(Constants.entities.MARK.toString());
         }
         markRepository.save(markEntityMapper.toEntity(mark));
     }

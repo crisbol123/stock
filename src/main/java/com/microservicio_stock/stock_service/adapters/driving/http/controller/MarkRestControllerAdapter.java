@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class MarkRestControllerAdapter {
             @ApiResponse(responseCode = "400", description = "Invalid input", content = @Content)
     })
     @PostMapping("/")
-    public ResponseEntity<Void> addMark(@RequestBody AddMarkRequest request) {
+    public ResponseEntity<Void> addMark(@RequestBody @Valid AddMarkRequest request) {
         markAdapterHttp.saveMark(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -42,7 +43,7 @@ public class MarkRestControllerAdapter {
             @ApiResponse(responseCode = "404", description = "No marks found", content = @Content)
     })
     @GetMapping("/")
-    public ResponseEntity<PagedResponse<MarkResponse>> getAllMarks(
+    public ResponseEntity<PagedResponse<MarkResponse>> getAllMarks(@Valid
           FindAllMarksRequest findAllMarksRequest) {
         return ResponseEntity.ok(markAdapterHttp.getPagedMarks(findAllMarksRequest));
     }

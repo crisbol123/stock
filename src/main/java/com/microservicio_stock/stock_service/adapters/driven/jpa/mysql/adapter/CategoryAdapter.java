@@ -5,6 +5,7 @@ import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.exception
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.exception.NoDataFoundException;
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.mapper.ICategoryEntityMapper;
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.repository.ICategoryRepository;
+import com.microservicio_stock.stock_service.configuration.Constants;
 import com.microservicio_stock.stock_service.domain.util.PagedResponse;
 import com.microservicio_stock.stock_service.domain.model.Category;
 import com.microservicio_stock.stock_service.domain.spi.ICategoryPersistencePort;
@@ -24,7 +25,7 @@ public class CategoryAdapter implements ICategoryPersistencePort {
     @Override
     public void saveCategory(Category category) {
         if (categoryRepository.findIdByName(category.getName()).isPresent()) {
-            throw new ElementAlreadyExistsException();
+            throw new ElementAlreadyExistsException(Constants.entities.CATEGORY.toString());
         }
         categoryRepository.save(categoryEntityMapper.toEntity(category));
     }

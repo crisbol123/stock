@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class CategoryRestControllerAdapter {
             @ApiResponse(responseCode = "400", description = "Invalid input", content = @Content)
     })
     @PostMapping("/")
-    public ResponseEntity<Void> addCategory(@RequestBody AddCategoryRequest request) {
+    public ResponseEntity<Void> addCategory(@RequestBody @Valid AddCategoryRequest request) {
 categoryAdapterHttp.saveCategory(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -44,7 +45,7 @@ categoryAdapterHttp.saveCategory(request);
             @ApiResponse(responseCode = "404", description = "No categories found", content = @Content)
     })
     @GetMapping("/")
-    public ResponseEntity<PagedResponse<CategoryResponse>> getAllCategories(FindAllCategoriesRequest request) {
+    public ResponseEntity<PagedResponse<CategoryResponse>> getAllCategories(@Valid FindAllCategoriesRequest request) {
 
         return ResponseEntity.ok(categoryAdapterHttp.getPagedCategories(request));
     }

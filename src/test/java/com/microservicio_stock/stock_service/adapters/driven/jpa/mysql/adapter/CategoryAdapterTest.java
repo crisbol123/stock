@@ -6,7 +6,6 @@ import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.exception
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.mapper.ICategoryEntityMapper;
 import com.microservicio_stock.stock_service.adapters.driven.jpa.mysql.repository.ICategoryRepository;
 import com.microservicio_stock.stock_service.domain.model.Category;
-import com.microservicio_stock.stock_service.domain.spi.ICategoryPersistencePort;
 import com.microservicio_stock.stock_service.domain.util.PagedResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +17,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 

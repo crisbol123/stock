@@ -17,13 +17,24 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controller for managing articles.
+ * This class handles HTTP requests for creating and retrieving articles.
+ */
 @RestController
 @RequestMapping("/article")
 @RequiredArgsConstructor
 @Tag(name = "Article", description = "API for managing articles")
 public class ArticleRestControllerAdapter {
+
     private final ArticleAdapterHttp articleAdapterHttp;
 
+    /**
+     * Creates a new article with the provided details.
+     *
+     * @param addArticleRequest The request body containing the article details.
+     * @return HTTP 201 Created status if the article is successfully created.
+     */
     @Operation(summary = "Add a new article", description = "Creates a new article with the provided details")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Article created successfully"),
@@ -35,6 +46,12 @@ public class ArticleRestControllerAdapter {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    /**
+     * Retrieves all articles with pagination and sorting options.
+     *
+     * @param request The request parameters for pagination and sorting.
+     * @return A paginated response containing the articles.
+     */
     @Operation(summary = "Get all articles", description = "Retrieves all articles with pagination and sorting options")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Articles retrieved successfully",
@@ -42,7 +59,7 @@ public class ArticleRestControllerAdapter {
             @ApiResponse(responseCode = "404", description = "No articles found", content = @Content)
     })
     @GetMapping("/")
-    public ResponseEntity<PagedResponse<ArticleResponse>> getPagedArticles(FindAllArticlesRequest request) {
+    public ResponseEntity<PagedResponse<ArticleResponse>> getPagedArticles(@Valid FindAllArticlesRequest request) {
         PagedResponse<ArticleResponse> response = articleAdapterHttp.getPagedArticles(request);
         return ResponseEntity.ok(response);
     }

@@ -3,7 +3,6 @@ package com.microservicio_stock.stock_service.adapters.driving.http.controller;
 import com.microservicio_stock.stock_service.adapters.driving.http.adapter.ArticleAdapterHttp;
 import com.microservicio_stock.stock_service.adapters.driving.http.dto.article.response.ArticleResponse;
 import com.microservicio_stock.stock_service.adapters.driving.http.dto.article.response.CategorySummaryResponse;
-import com.microservicio_stock.stock_service.adapters.driving.http.dto.mark.response.MarkResponse;
 import com.microservicio_stock.stock_service.adapters.driving.http.mapper.mark.IMarkResponseMapper;
 import com.microservicio_stock.stock_service.domain.util.PagedResponse;
 import com.microservicio_stock.stock_service.adapters.driving.http.dto.article.request.AddArticleRequest;
@@ -20,15 +19,12 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-public class ArticleRestControllerAdapterTest {
+ class ArticleRestControllerAdapterTest {
 
     @Mock
     private ArticleAdapterHttp articleAdapterHttp;
@@ -48,7 +44,7 @@ public class ArticleRestControllerAdapterTest {
     }
 
     @Test
-    public void testSaveArticle() {
+     void testSaveArticle() {
         AddArticleRequest request = new AddArticleRequest();
         request.setName("Article Name");
         request.setDescription("Article Description");
@@ -64,7 +60,7 @@ public class ArticleRestControllerAdapterTest {
     }
 
     @Test
-    public void testGetPagedArticles() {
+     void testGetPagedArticles() {
         FindAllArticlesRequest request = new FindAllArticlesRequest(0, 10, true, "name");
 
         // Mock data
@@ -91,7 +87,7 @@ public class ArticleRestControllerAdapterTest {
         articleResponse.setPrice(article.getPrice());
         articleResponse.setCategories(article.getCategories().stream()
                 .map(cat -> new CategorySummaryResponse(cat.getId(), cat.getName()))
-                .collect(Collectors.toList()));
+                .toList());
         articleResponse.setMark(iMarkResponseMapper.toMarkResponse(article.getMark()));
 
         List<ArticleResponse> articleResponses = List.of(articleResponse);

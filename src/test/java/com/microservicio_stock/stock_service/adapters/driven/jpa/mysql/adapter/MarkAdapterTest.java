@@ -17,10 +17,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-import java.util.Collections;
+
 import java.util.List;
 import java.util.Optional;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -47,7 +46,7 @@ class MarkAdapterTest {
         Mark mark = new Mark(1L, "Mark Name", "Mark Description");
         MarkEntity markEntity = new MarkEntity(1L, "Mark Name", "Mark Description");
 
-        when(markRepository.findByName(mark.getName())).thenReturn(Optional.empty());
+        when(markRepository.findIdByName(mark.getName())).thenReturn(Optional.empty());
         when(markEntityMapper.toEntity(mark)).thenReturn(markEntity);
 
         // Act
@@ -61,8 +60,7 @@ class MarkAdapterTest {
     void saveMark_ShouldThrowElementAlreadyExistsException() {
         // Arrange
         Mark mark = new Mark(1L, "Mark Name", "Mark Description");
-        MarkEntity markEntity = new MarkEntity(1L, "Mark Name", "Mark Description");
-        when(markRepository.findByName(mark.getName())).thenReturn(Optional.of(markEntity));
+        when(markRepository.findIdByName(mark.getName())).thenReturn(Optional.of(anyLong()));
 
         // Act & Assert
         assertThrows(ElementAlreadyExistsException.class, () -> markAdapter.saveMark(mark));
